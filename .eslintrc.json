@@ -1,0 +1,84 @@
+{
+  "env": {
+    "es2021": true,
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": ["./tsconfig.json"]
+  },
+  "plugins": ["@typescript-eslint", "unused-imports", "jest", "security"],
+  "extends": [
+    "airbnb-base",
+    "airbnb-typescript/base",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jest/recommended",
+    "plugin:security/recommended",
+    "prettier"
+  ],
+  "ignorePatterns": ["dist"],
+  "rules": {
+    // 関数や変数が定義される前に使われているとエラーになるデフォルトの機能をoff
+    "no-use-before-define": "off",
+
+    // typescript側のno-use-before-defineを使うようにする
+    "@typescript-eslint/no-use-before-define": ["error"],
+
+    // named exportがエラーになるので使えるようにoff
+    "import/prefer-default-export": "off",
+
+    // unused-importsを使うためoff
+    "@typescript-eslint/no-unused-vars": "off",
+
+    // 不要なimportの削除
+    "unused-imports/no-unused-imports": "error",
+
+    // unused-importsでno-unused-varsのルールを再定義
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+
+    // パラメーターのプロパティ変更を許可
+    "no-param-reassign": [
+      2,
+      {
+        "props": false
+      }
+    ],
+
+    // importのときにファイルの拡張子を記述しなくてもエラーにしない
+    "import/extensions": [
+      "error",
+      {
+        "js": "never",
+        "ts": "never"
+      }
+    ],
+
+    // void演算子の許可
+    "no-void": [
+      "error",
+      {
+        "allowAsStatement": true
+      }
+    ]
+  },
+  "settings": {
+    // 特定の拡張子がつくファイルのimportを許可
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".ts"]
+      }
+    }
+  }
+}
