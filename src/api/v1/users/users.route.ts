@@ -1,13 +1,52 @@
-import express from 'express'
+import { Router } from 'express'
+import { Routes } from '../../../interfaces/routes.interface'
 
 /**
  * ユーザ情報のルーティング設定
- *
- * @module userRoute
  */
-export const userRoute = express.Router()
+export class UserRoute implements Routes {
+  public readonly path = '/users'
 
-// TODO: ルーティング実装
+  public readonly router = Router()
+
+  constructor() {
+    this.initializeRoutes()
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  private initializeRoutes(): void {
+    // TODO: ルーティング実装
+    // this.router
+    //   .route('/')
+    //   .post(
+    //     auth('manageUsers'),
+    //     validate(userValidation.createUser),
+    //     userController.createUser
+    //   )
+    //   .get(
+    //     auth('getUsers'),
+    //     validate(userValidation.getUsers),
+    //     userController.getUsers
+    //   )
+    // this.router
+    //   .route('/:userId')
+    //   .get(
+    //     auth('getUsers'),
+    //     validate(userValidation.getUser),
+    //     userController.getUser
+    //   )
+    //   .patch(
+    //     auth('manageUsers'),
+    //     validate(userValidation.updateUser),
+    //     userController.updateUser
+    //   )
+    //   .delete(
+    //     auth('manageUsers'),
+    //     validate(userValidation.deleteUser),
+    //     userController.deleteUser
+    //   )
+  }
+}
 
 /**
  * @swagger

@@ -1,5 +1,5 @@
 import express from 'express'
-import { v1Router } from './routes/v1/index'
+import { V1Route } from './api/v1/v1.route'
 
 /**
  * アプリケーション本体
@@ -7,4 +7,4 @@ import { v1Router } from './routes/v1/index'
  * @module app
  */
 export const app = express()
-app.use('/api/v1', v1Router)
+app.use('/api/v1', new V1Route().router)
