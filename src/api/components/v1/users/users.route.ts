@@ -1,20 +1,13 @@
-import { Router } from 'express'
-import { Routes } from '../../../interfaces/routes.interface'
+import { ApiRouteAbs } from '../../../api.route.abs'
 
 /**
- * ユーザ情報のルーティング設定
+ * /usersのルータ
  */
-export class UserRoute implements Routes {
-  public readonly path = '/users'
-
-  public readonly router = Router()
-
-  constructor() {
-    this.initializeRoutes()
-  }
+export class UsersRoute extends ApiRouteAbs {
+  readonly path = '/users'
 
   // eslint-disable-next-line class-methods-use-this
-  private initializeRoutes(): void {
+  protected initializeRoutes(): void {
     // TODO: ルーティング実装
     // this.router
     //   .route('/')
