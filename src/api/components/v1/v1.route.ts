@@ -15,8 +15,8 @@ export class V1Route extends ApiRouteAbs {
     })
 
     // development専用のルーティング設定を追加
-    const devRoutes = [new DocsRoute()]
     if (config.env === 'development') {
+      const devRoutes = [new DocsRoute()]
       devRoutes.forEach((route) => {
         this.router.use(route.path, route.router)
       })

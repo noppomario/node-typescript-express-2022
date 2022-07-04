@@ -1,24 +1,45 @@
+openapi: '3.0.0'
+
+info:
+  title: '[v1]API documentation'
+  description: '[v1]Template of OpenAPI documents.'
+  # termsOfService: ''
+  # contact:
+  #   name: ''
+  #   url: ''
+  #   email: ''
+  # license:
+  #   name: ''
+  #   url: ''
+  version: '1.0.0'
+
+servers:
+  - url: 'http://127.0.0.1:{port}/{basePath}'
+    description: 'Development server'
+    variables:
+      port:
+        default: '3000'
+      basePath:
+        default: 'api/v1'
+  - url: 'https://{domain}:{port}/{basePath}'
+    description: 'Production server'
+    variables:
+      domain:
+        default: 'example.com'
+      port:
+        default: '100000'
+      basePath:
+        default: 'api/v1'
+
+paths:
+  /users:
+    $ref: './api/users.yml#/paths/~1users' # TODO
+
+  /users/{id}:
+    $ref: './api/users.yml#/paths/~1users~1{id}' # TODO
+
 components:
   schemas:
-    User:
-      type: object
-      properties:
-        id:
-          type: string
-        email:
-          type: string
-          format: email
-        name:
-          type: string
-        role:
-          type: string
-          enum: [user, admin]
-      example:
-        id: 5ebac534954b54139806c112
-        email: fake@example.com
-        name: fake name
-        role: user
-
     Token:
       type: object
       properties:
@@ -48,15 +69,6 @@ components:
           type: string
 
   responses:
-    DuplicateEmail:
-      description: Email already taken
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            code: 400
-            message: Email already taken
     Unauthorized:
       description: Unauthorized
       content:
@@ -66,6 +78,7 @@ components:
           example:
             code: 401
             message: Please authenticate
+
     Forbidden:
       description: Forbidden
       content:
@@ -75,6 +88,7 @@ components:
           example:
             code: 403
             message: Forbidden
+
     NotFound:
       description: Not found
       content:
