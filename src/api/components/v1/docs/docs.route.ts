@@ -1,7 +1,7 @@
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 import { ApiRouteAbs } from '../../../api.route.abs'
-import { swaggerDefinition } from '../../../../docs/swaggerDef'
+import { swaggerDefinition } from '../../../../docs/swagger-def-v1'
 
 /**
  * /docsのルータ
