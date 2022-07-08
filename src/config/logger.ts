@@ -8,6 +8,11 @@ const enumerateErrorFormat = winston.format((info) => {
   return info
 })
 
+/**
+ * カスタムロガー(winston)
+ *
+ * @module logger
+ */
 export const logger = winston.createLogger({
   level: config.env === 'development' ? 'debug' : 'info',
   format: winston.format.combine(
