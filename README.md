@@ -27,7 +27,6 @@ npm run dev
 Running in production:
 
 ```bash
-# run `npx tsc` in advance
-
+npm run build
 npm start
 ```
