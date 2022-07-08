@@ -1,8 +1,8 @@
 openapi: '3.0.0'
 
 info:
-  title: '[v1]API documentation'
-  description: '[v1]Template of OpenAPI documents.'
+  title: API仕様書
+  description: 'APIバージョン: v1'
   # termsOfService: ''
   # contact:
   #   name: ''
@@ -14,33 +14,22 @@ info:
   version: '1.0.0'
 
 servers:
-  - url: 'http://127.0.0.1:{port}/{basePath}'
-    description: 'Development server'
-    variables:
-      port:
-        default: '3000'
-      basePath:
-        default: 'api/v1'
-  - url: 'https://{domain}:{port}/{basePath}'
-    description: 'Production server'
-    variables:
-      domain:
-        default: 'example.com'
-      port:
-        default: '100000'
-      basePath:
-        default: 'api/v1'
+  - url: http://127.0.0.1:3000/api/v1
+    description: ローカル通信
+  - url: https://example.com:100000/api/v1
+    description: リバースプロキシ経由(Production)
 
 paths:
   /users:
-    $ref: './api/users.yml#/paths/~1users' # TODO
+    $ref: ./api/users.yml#/paths/~1users
 
   /users/{id}:
-    $ref: './api/users.yml#/paths/~1users~1{id}' # TODO
+    $ref: ./api/users.yml#/paths/~1users~1{id}
 
 components:
   schemas:
     Token:
+      description: JSONWebトークン共通仕様
       type: object
       properties:
         token:
@@ -53,6 +42,7 @@ components:
         expires: 2020-05-12T16:18:04.793Z
 
     AuthTokens:
+      description: 認証トークン
       type: object
       properties:
         access:
@@ -60,7 +50,23 @@ components:
         refresh:
           $ref: '#/components/schemas/Token'
 
+    # TODO
+    Success:
+      description: 成功レスポンススキーマ(共通)
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+
+    # TODO
     Error:
+      description: エラーレスポンススキーマ(共通)
       type: object
       properties:
         code:
@@ -69,6 +75,16 @@ components:
           type: string
 
   responses:
+    BadRequest:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 400
+            message: 要求パラメータが不正です # TODO
+
     Unauthorized:
       description: Unauthorized
       content:
@@ -77,7 +93,7 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             code: 401
-            message: Please authenticate
+            message: 認証が必要です。
 
     Forbidden:
       description: Forbidden
@@ -87,7 +103,7 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             code: 403
-            message: Forbidden
+            message: 操作が許可されていません。
 
     NotFound:
       description: Not found
@@ -97,7 +113,17 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             code: 404
-            message: Not found
+            message: 指定されたリソースが存在しません。
+
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 500
+            message: サーバ内部エラーが発生しました。
 
   securitySchemes:
     bearerAuth:

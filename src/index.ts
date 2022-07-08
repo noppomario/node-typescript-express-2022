@@ -8,11 +8,6 @@ import { logger } from './config/logger'
 
 const server = app.listen(config.port, () => {
   logger.info('server start.')
-  if (config.env === 'development') {
-    logger.debug(
-      `API documentation: http://localhost:${config.port}/api/v1/docs`
-    )
-  }
 })
 
 const exitHandler = () => {

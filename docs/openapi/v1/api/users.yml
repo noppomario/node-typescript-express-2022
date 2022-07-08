@@ -1,9 +1,9 @@
 paths:
   /users:
     post:
-      summary: Create a user
-      description: Only admins can create other users.
-      tags: [Users]
+      summary: ユーザの新規作成
+      description: 管理者のみ実行可能
+      tags: [user]
       security:
         - bearerAuth: []
       requestBody:
@@ -23,12 +23,12 @@ paths:
                 email:
                   type: string
                   format: email
-                  description: must be unique
+                  description: ユニーク制約
                 password:
                   type: string
                   format: password
                   minLength: 8
-                  description: At least one number and one letter
+                  description: 最低1文字以上の数字/文字が必要
                 role:
                   type: string
                   enum: [user, admin]
@@ -43,18 +43,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#components/schemas/User'
+                $ref: '#/components/schemas/User'
         '400':
-          $ref: '#components/responses/DuplicateEmail'
+          $ref: '../openapi-v1.yml#/components/responses/BadRequest'
         '401':
           $ref: '../openapi-v1.yml#/components/responses/Unauthorized'
         '403':
           $ref: '../openapi-v1.yml#/components/responses/Forbidden'
+        '500':
+          $ref: '../openapi-v1.yml#/components/responses/InternalServerError'
 
     get:
-      summary: Get all users
-      description: Only admins can retrieve all users.
-      tags: [Users]
+      summary: ユーザの一括取得
+      description: 管理者のみ実行可能
+      tags: [user]
       security:
         - bearerAuth: []
       parameters:
@@ -62,31 +64,31 @@ paths:
           name: name
           schema:
             type: string
-          description: User name
+          description: ユーザ名
         - in: query
           name: role
           schema:
             type: string
-          description: User role
+          description: 権限
         - in: query
           name: sortBy
           schema:
             type: string
-          description: sort by query in the form of field:desc/asc (ex. name:asc)
+          description: <フィールド名>:desc/ascでソートする (ex. name:asc)
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
           default: 10
-          description: Maximum number of users
+          description: 取得するユーザ数の最大値
         - in: query
           name: page
           schema:
             type: integer
             minimum: 1
             default: 1
-          description: Page number
+          description: ページ番号
       responses:
         '200':
           description: OK
@@ -98,7 +100,7 @@ paths:
                   results:
                     type: array
                     items:
-                      $ref: '#components/schemas/User'
+                      $ref: '#/components/schemas/User'
                   page:
                     type: integer
                     example: 1
@@ -115,12 +117,14 @@ paths:
           $ref: '../openapi-v1.yml#/components/responses/Unauthorized'
         '403':
           $ref: '../openapi-v1.yml#/components/responses/Forbidden'
+        '500':
+          $ref: '../openapi-v1.yml#/components/responses/InternalServerError'
 
   /users/{id}:
     get:
-      summary: Get a user
-      description: Logged in users can fetch only their own user information. Only admins can fetch other users.
-      tags: [Users]
+      summary: ユーザの単体取得
+      description: 自身のユーザ情報のみ取得できる。管理者は全ユーザの情報を取得できる。
+      tags: [user]
       security:
         - bearerAuth: []
       parameters:
@@ -136,18 +140,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#components/schemas/User'
+                $ref: '#/components/schemas/User'
         '401':
           $ref: '../openapi-v1.yml#/components/responses/Unauthorized'
         '403':
           $ref: '../openapi-v1.yml#/components/responses/Forbidden'
         '404':
           $ref: '../openapi-v1.yml#/components/responses/NotFound'
+        '500':
+          $ref: '../openapi-v1.yml#/components/responses/InternalServerError'
 
     patch:
-      summary: Update a user
-      description: Logged in users can only update their own information. Only admins can update other users.
-      tags: [Users]
+      summary: ユーザの単体更新
+      description: 自身のユーザ情報のみ更新できる。管理者は全ユーザの情報を更新できる。
+      tags: [user]
       security:
         - bearerAuth: []
       parameters:
@@ -156,7 +162,7 @@ paths:
           required: true
           schema:
             type: string
-          description: User id
+          description: ユーザID
       requestBody:
         required: true
         content:
@@ -169,12 +175,12 @@ paths:
                 email:
                   type: string
                   format: email
-                  description: must be unique
+                  description: ユニーク制約
                 password:
                   type: string
                   format: password
                   minLength: 8
-                  description: At least one number and one letter
+                  description: 最低1文字以上の数字/文字が必要
               example:
                 name: fake name
                 email: fake@example.com
@@ -185,20 +191,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#components/schemas/User'
+                $ref: '#/components/schemas/User'
         '400':
-          $ref: '#components/responses/DuplicateEmail'
+          $ref: '../openapi-v1.yml#/components/responses/BadRequest'
         '401':
           $ref: '../openapi-v1.yml#/components/responses/Unauthorized'
         '403':
           $ref: '../openapi-v1.yml#/components/responses/Forbidden'
         '404':
           $ref: '../openapi-v1.yml#/components/responses/NotFound'
+        '500':
+          $ref: '../openapi-v1.yml#/components/responses/InternalServerError'
 
     delete:
-      summary: Delete a user
-      description: Logged in users can delete only themselves. Only admins can delete other users.
-      tags: [Users]
+      summary: ユーザの単体削除
+      description: 自身のユーザ情報のみ更新できる。管理者は全ユーザの情報を更新できる。
+      tags: [user]
       security:
         - bearerAuth: []
       parameters:
@@ -210,13 +218,15 @@ paths:
           description: User id
       responses:
         '200':
-          description: No content
+          description: レスポンスボディなし
         '401':
           $ref: '../openapi-v1.yml#/components/responses/Unauthorized'
         '403':
           $ref: '../openapi-v1.yml#/components/responses/Forbidden'
         '404':
           $ref: '../openapi-v1.yml#/components/responses/NotFound'
+        '500':
+          $ref: '../openapi-v1.yml#/components/responses/InternalServerError'
 
 components:
   schemas:
@@ -239,13 +249,4 @@ components:
         name: fake name
         role: user
 
-  responses:
-    DuplicateEmail:
-      description: Email already taken
-      content:
-        application/json:
-          schema:
-            $ref: '../openapi-v1.yml#/components/schemas/Error'
-          example:
-            code: 400
-            message: Email already taken
+  # responses:

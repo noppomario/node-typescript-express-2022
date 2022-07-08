@@ -5,6 +5,8 @@
   "private": true,
   "main": "dist/index.js",
   "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
     "start": "pm2 start ecosystem.config.json --no-daemon",
     "dev": "cross-env NODE_ENV=development ts-node-dev --respawn src/index.ts",
     "test": "jest -i --colors --verbose --detectOpenHandles",
@@ -18,6 +20,8 @@
     "fix": "run-s -l fix:**",
     "fix:prettier": "prettier --write .",
     "fix:eslint": "eslint . --ext .js,.ts --fix",
+    "doc": "run-p -c -l docs:**",
+    "doc:api": "redoc-cli build docs/openapi/v1/openapi-v1.yml --output dist/docs/openapi-v1-static.html",
     "prepare": "husky install"
   },
   "engines": {
@@ -57,11 +61,10 @@
     "lint-staged": "^13.0.3",
     "npm-run-all": "^4.1.5",
     "prettier": "2.7.1",
+    "redoc-cli": "^0.13.16",
     "supertest": "^6.2.3",
-    "swagger-ui-express": "^4.4.0",
     "ts-jest": "^28.0.5",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^4.7.4",
-    "yamljs": "^0.3.0"
+    "typescript": "^4.7.4"
   }
 }

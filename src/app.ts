@@ -2,6 +2,7 @@ import express from 'express'
 import { V1Route } from './api/components/v1/v1.route'
 import { config } from './config/config'
 import { successHandler, errorHandler } from './config/morgan'
+import { logger } from './config/logger'
 
 /**
  * アプリケーション本体
@@ -9,6 +10,13 @@ import { successHandler, errorHandler } from './config/morgan'
  * @module app
  */
 export const app = express()
+
+if (config.env === 'development') {
+  app.use(express.static('docs'))
+  logger.debug(
+    `API documentation: http://localhost:${config.port}/openapi/v1/openapi-v1.html`
+  )
+}
 
 if (config.env !== 'test') {
   app.use(successHandler)
