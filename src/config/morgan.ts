@@ -13,9 +13,9 @@ const errorResponseFormat = `${getIpFormat()}:method :url :status - :response-ti
  * HTTPリクエストロガー(morgan)
  * - アクセスログ
  *
- * @module successHandler
+ * @module accessLogHandler
  */
-export const successHandler = morgan(successResponseFormat, {
+export const accessLogHandler = morgan(successResponseFormat, {
   skip: (req, res) => res.statusCode >= 400,
   stream: { write: (message) => logger.info(message.trim()) }
 })
@@ -24,9 +24,9 @@ export const successHandler = morgan(successResponseFormat, {
  * HTTPリクエストロガー(morgan)
  * - エラーログ
  *
- * @module successHandler
+ * @module errorLogHandler
  */
-export const errorHandler = morgan(errorResponseFormat, {
+export const errorLogHandler = morgan(errorResponseFormat, {
   skip: (req, res) => res.statusCode < 400,
   stream: { write: (message) => logger.error(message.trim()) }
 })

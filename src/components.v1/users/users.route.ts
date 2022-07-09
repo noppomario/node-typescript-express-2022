@@ -1,42 +1,28 @@
-import { ApiRouteAbs } from '../../api-common/api.route.abs'
+import express from 'express'
+import { injectable, inject } from 'tsyringe'
+import { UsersController } from './users.controller'
 
 /**
  * /usersのルータ
  */
-export class UsersRoute extends ApiRouteAbs {
+@injectable()
+export class UsersRoute {
   readonly path = '/users'
 
-  // eslint-disable-next-line class-methods-use-this
+  readonly router = express.Router()
+
+  constructor(
+    @inject('UsersController')
+    private readonly usersController: UsersController
+  ) {
+    this.initializeRoutes()
+  }
+
   protected initializeRoutes(): void {
-    // TODO: ルーティング実装
-    // this.router
-    //   .route('/')
-    //   .post(
-    //     auth('manageUsers'),
-    //     validate(userValidation.createUser),
-    //     userController.createUser
-    //   )
-    //   .get(
-    //     auth('getUsers'),
-    //     validate(userValidation.getUsers),
-    //     userController.getUsers
-    //   )
-    // this.router
-    //   .route('/:userId')
-    //   .get(
-    //     auth('getUsers'),
-    //     validate(userValidation.getUser),
-    //     userController.getUser
-    //   )
-    //   .patch(
-    //     auth('manageUsers'),
-    //     validate(userValidation.updateUser),
-    //     userController.updateUser
-    //   )
-    //   .delete(
-    //     auth('manageUsers'),
-    //     validate(userValidation.deleteUser),
-    //     userController.deleteUser
-    //   )
+    this.router.route('/').get(
+      // auth('getUsers'),
+      // validate(this.userValidation.getUsers),
+      this.usersController.getUsers
+    )
   }
 }
