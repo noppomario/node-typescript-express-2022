@@ -1,5 +1,5 @@
 import { UsersRoute } from './users/users.route'
-import { ApiRouteAbs } from '../../api.route.abs'
+import { ApiRouteAbs } from '../../api-common/api.route.abs'
 
 /**
  * /api/v1/配下の全ルータを結合したルータ
