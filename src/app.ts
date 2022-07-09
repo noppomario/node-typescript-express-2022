@@ -13,9 +13,7 @@ export const app = express()
 
 if (config.env === 'development') {
   app.use(express.static('docs'))
-  logger.debug(
-    `API documentation: http://localhost:${config.port}/openapi/v1/openapi-v1.html`
-  )
+  logger.debug(`API documentation: http://localhost:${config.port}/openapi/v1/`)
 }
 
 if (config.env !== 'test') {
