@@ -1,4 +1,4 @@
-import { ApiRouteAbs } from '../../../api-common/api.route.abs'
+import { ApiRouteAbs } from '../../api-common/api.route.abs'
 
 /**
  * /usersのルータ
