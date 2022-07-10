@@ -1,11 +1,13 @@
+import express from 'express'
 import { container } from 'tsyringe'
 import { UsersRoute } from './users/users.route'
-import { ApiRouteAbs } from '../api-common/api.route.abs'
 
 /**
  * /api/v1/配下の全ルータを結合したルータ
  */
-export class V1Route extends ApiRouteAbs {
+export class V1Route {
+  readonly router = express.Router()
+
   protected initializeRoutes(): void {
     const userRoute = container.resolve(UsersRoute)
 
