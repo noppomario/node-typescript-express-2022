@@ -3,7 +3,7 @@ import express from 'express'
 /**
  * ルータの抽象クラス
  */
-export abstract class ApiRouteAbs {
+export interface ApiRoute {
   /*
    * エンドポイントURL
    */
@@ -12,14 +12,10 @@ export abstract class ApiRouteAbs {
   /**
    * ExpressのRouter
    */
-  readonly router = express.Router()
-
-  constructor() {
-    this.initializeRoutes()
-  }
+  readonly router: express.Router
 
   /*
    * ルータの初期化処理
    */
-  protected abstract initializeRoutes(): void
+  initializeRoutes(): void
 }

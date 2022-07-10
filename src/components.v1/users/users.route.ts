@@ -1,12 +1,13 @@
 import express from 'express'
 import { injectable, inject } from 'tsyringe'
+import { ApiRoute } from '../../api-common/api.route'
 import { UsersController } from './users.controller'
 
 /**
  * /usersのルータ
  */
 @injectable()
-export class UsersRoute {
+export class UsersRoute implements ApiRoute {
   readonly path = '/users'
 
   readonly router = express.Router()
@@ -18,7 +19,7 @@ export class UsersRoute {
     this.initializeRoutes()
   }
 
-  protected initializeRoutes(): void {
+  initializeRoutes(): void {
     this.router.route('/').get(
       // auth('getUsers'),
       // validate(this.userValidation.getUsers),
